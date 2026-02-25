@@ -33,6 +33,12 @@ MODEL = os.getenv("OPENAI_MODEL", "gpt-5-mini")
 # -------------------------
 # HELPERS
 # -------------------------
+
+def is_target_time(hour=7):
+    local_tz = tz.gettz("Europe/Vilnius")
+    now = datetime.now(local_tz)
+    return now.hour == hour
+
 def is_today(st):
     if st is None:
         return True
@@ -194,10 +200,16 @@ def main():
     html_doc = build_html(date_str, sections)
 
     file_name = f"lrt_digest_{date_str}.html"
-    with open(file_name, "w", encoding="utf-8") as f:
-        f.write(html_doc)
+    # with open(file_name, "w", encoding="utf-8") as f:
+    #     f.write(html_doc)
 
     send_email(f"LRT santrauka — {date_str}", html_doc)
+
+    # if is_target_time(7):
+    #     send_email(f"LRT santrauka — {date_str}", html_doc)
+    #     print("✅ Email sent")
+    # else:
+    #     print("⏱ Not 07:00 Vilnius time — skipping email")
 
     print("✅ Multi-topic digest created and emailed!")
 

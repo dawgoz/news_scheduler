@@ -1,0 +1,31 @@
+name: LRT Daily Digest
+
+on:
+  schedule:
+    - cron: "0 4,5 * * *"  # 07:00 Vilnius (DST safe)
+  workflow_dispatch:
+
+jobs:
+  run-digest:
+    runs-on: ubuntu-latest
+
+    env:
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      OPENAI_MODEL: ${{ secrets.OPENAI_MODEL }}
+      NEWS_TO_EMAIL: ${{ secrets.NEWS_TO_EMAIL }}
+      NEWS_FROM_EMAIL: ${{ secrets.NEWS_FROM_EMAIL }}
+      NEWS_SMTP_USER: ${{ secrets.NEWS_SMTP_USER }}
+      NEWS_SMTP_PASS: ${{ secrets.NEWS_SMTP_PASS }}
+      NEWS_SMTP_HOST: smtp.gmail.com
+      NEWS_SMTP_PORT: "587"
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - run: pip install -r requirements.txt
+
+      - run: python lrt_multi_digest.py
