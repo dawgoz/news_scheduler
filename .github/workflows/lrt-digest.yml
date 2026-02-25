@@ -2,7 +2,7 @@ name: LRT Daily Digest
 
 on:
   schedule:
-    - cron: "0 4,5 * * *"  # 07:00 Vilnius (DST safe)
+    - cron: "0 4,5,9,10 * * *"  # 07:00 & 12:00 Vilnius (DST safe)
   workflow_dispatch:
 
 jobs:
