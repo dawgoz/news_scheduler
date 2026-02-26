@@ -629,6 +629,7 @@ def build_html(date_str: str, header: str, subtitle: str, sections: dict[str, li
 def send_html_email_individual(subject: str, html_doc: str) -> None:
     to_emails_raw = os.getenv("NEWS_TO_EMAIL", "")
     recipients = [e.strip() for e in to_emails_raw.split(",") if e.strip()]
+    recipients = list(dict.fromkeys(recipients))  # preserve order, remove duplicates
 
     from_email = (os.getenv("NEWS_FROM_EMAIL") or "").strip()
     host = (os.getenv("NEWS_SMTP_HOST") or "smtp.gmail.com").strip()
@@ -663,7 +664,7 @@ def send_html_email_individual(subject: str, html_doc: str) -> None:
             msg.attach(MIMEText(html_doc, "html", "utf-8"))
 
             server.sendmail(from_email, [recipient], msg.as_string())
-            # print(f"✅ Sent to {recipient}")
+            print(f"✅ Sent to {recipient}")
 
 
 # -------------------------
@@ -672,7 +673,7 @@ def send_html_email_individual(subject: str, html_doc: str) -> None:
 def main():
     digest_type = get_digest_type()
     if digest_type not in ("morning", "midday"):
-        print("⏱ Not scheduled digest time (Vilnius 07:00 / 12:00) — exiting.")
+        print("Not scheduled digest time (Vilnius 07:00 / 12:00) — exiting.")
         return
 
     window_start, window_end = get_time_window_local(digest_type)
