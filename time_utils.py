@@ -26,7 +26,7 @@ def get_time_window_local(digest_type: str) -> tuple[datetime, datetime]:
     if digest_type == "midday":
         start = datetime.combine(now.date(), dtime(7, 0), tzinfo=LOCAL_TZ)
     elif digest_type == "evening":
-        start = datetime.combine(now.date(), dtime(17, 0), tzinfo=LOCAL_TZ)
+        start = datetime.combine(now.date(), dtime(18, 0), tzinfo=LOCAL_TZ)
     else:
         start = start_of_day
     return start, now
@@ -40,10 +40,14 @@ def titles_and_subject(date_str: str, digest_type: str) -> tuple[str, str, str]:
         subject = f"[Ryto santrauka] LRT naujienos — {date_str}"
         header = f"LRT ryto naujienų santrauka — {date_str}"
         subtitle = "Svarbiausios šios dienos naujienos (nuo 00:00)."
-    else:
+    elif digest_type == "midday":
         subject = f"[Vidurdienio atnaujinimas] LRT naujienos — {date_str}"
         header = f"LRT vidurdienio naujienų atnaujinimas — {date_str}"
-        subtitle = "Naujos naujienos nuo 07:00 (ryto santraukos)."
+        subtitle = "Naujos naujienos nuo 07:00 (ryto santraukos)."    
+    else:
+        subject = f"[Vakaro atnaujinimas] LRT naujienos — {date_str}"
+        header = f"LRT vakaro naujienų atnaujinimas — {date_str}"
+        subtitle = "Naujos naujienos nuo 12:00 (vidurdienio atnaujinimo)."    
     return subject, header, subtitle
 
 
