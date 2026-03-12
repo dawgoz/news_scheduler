@@ -36,7 +36,7 @@ def build_html(
         if not items:
             continue
         cards: list[str] = []
-        for i, it in enumerate(items):
+        for it in items:
             badge = ""
             if it.get("is_breaking"):
                 badge = f"<span style='background: #0b3d91; color: #fff; padding: 3px 8px; font-size: 11px; font-weight: bold; border-radius: 999px; margin-right: 8px;'>NAUJA</span>"
@@ -48,17 +48,22 @@ def build_html(
             card_bg = "#ffffff"
             cards.append(
                 f"""
-                <td style="background: {card_bg}; border: 1px solid #e5e7eb; padding: 16px; vertical-align: top; border-radius:14px;">
-                  <div style="margin: 0; font-size: 17px; font-weight: bold; color: #111827; line-height: 1.4;">
-                    {badge}{esc(it['title'])}
-                  </div>
-                  <div style="margin-top: 6px; color: #6b7280; font-size: 13px; line-height: 1.5;">
-                    {published} &bull; {esc(topic)} &bull; <a href="{esc(it['url'])}" style="color: #6b7280; text-decoration: none; border-bottom: 1px dotted #6b7280;">Skaityti {domain}</a>
-                  </div>
-                  <div style="margin-top: 10px; font-size: 15px; color: #111827; line-height: 1.6;">
-                    {summary}
-                  </div>
-                </td>
+                <tr>
+                  <td style="background: {card_bg}; border: 1px solid #e5e7eb; padding: 16px; vertical-align: top; border-radius:14px;">
+                    <div style="margin: 0; font-size: 17px; font-weight: bold; color: #111827; line-height: 1.4;">
+                      {badge}{esc(it['title'])}
+                    </div>
+                    <div style="margin-top: 6px; color: #6b7280; font-size: 13px; line-height: 1.5;">
+                      {published} &bull; {esc(topic)} &bull; <a href="{esc(it['url'])}" style="color: #6b7280; text-decoration: none; border-bottom: 1px dotted #6b7280;">Skaityti {domain}</a>
+                    </div>
+                    <div style="margin-top: 10px; font-size: 15px; color: #111827; line-height: 1.6;">
+                      {summary}
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="height: 10px; line-height: 10px; font-size: 10px;">&nbsp;</td>
+                </tr>
                 """
             )
         
@@ -77,9 +82,7 @@ def build_html(
                   <tr>
                     <td>
                       <table width="100%" cellpadding="0" cellspacing="0" border="0">
-                        <tr>
-                          {cards_row}
-                        </tr>
+                        {cards_row}
                       </table>
                     </td>
                   </tr>
