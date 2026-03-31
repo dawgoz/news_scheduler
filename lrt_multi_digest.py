@@ -9,6 +9,7 @@ Schedule idea (GitHub Actions, UTC):
 """
 
 from datetime import datetime, timedelta
+import os
 
 import feedparser
 
@@ -32,7 +33,15 @@ from weather import get_vilnius_weather_summary
 # MAIN
 # -------------------------
 def main():
+    debug = os.getenv("DIGEST_DEBUG", "").strip().lower() not in ("", "0", "false", "no", "off")
+
     digest_type = get_digest_type()
+
+    if debug:
+        now_utc = datetime.now(tz=None).strftime("%Y-%m-%d %H:%M:%S")  # system/runner time
+        now_local = datetime.now(LOCAL_TZ).strftime("%Y-%m-%d %H:%M:%S")
+        print(f"[DEBUG] digest_type={digest_type} now_local={now_local} now_system={now_utc}")
+
     # if digest_type not in ("morning", "midday"):
     #     print("Not scheduled digest time (Vilnius 07:00 / 12:00) — exiting.")
     #     return

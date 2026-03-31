@@ -1,0 +1,622 @@
+<!doctype html>
+<html lang="lt">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>LRT vidurdienio naujienų atnaujinimas — 2026-02-25</title>
+  <style>
+    :root {
+      --bg: #f3f4f6;
+      --panel: #ffffff;
+      --text: #111827;
+      --muted: #6b7280;
+      --border: #e5e7eb;
+      --shadow: 0 8px 24px rgba(17, 24, 39, 0.08);
+      --accent: #0b3d91;          /* dark blue */
+      --accent-soft: rgba(11, 61, 145, 0.10);
+      --radius: 14px;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+      line-height: 1.55;
+    }
+    .topbar {
+      background: var(--panel);
+      border-bottom: 1px solid var(--border);
+    }
+    .topbar-inner {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 800;
+      letter-spacing: 0.2px;
+    }
+    .logo {
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      background: var(--accent);
+      color: #fff;
+      display: grid;
+      place-items: center;
+      font-weight: 900;
+    }
+    .brand small {
+      color: var(--muted);
+      font-weight: 600;
+    }
+    .wrap {
+      max-width: 980px;
+      margin: 18px auto 48px;
+      padding: 0 16px;
+    }
+    .hero {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 18px 18px 14px;
+    }
+    .hero h1 {
+      margin: 0 0 6px;
+      font-size: 22px;
+    }
+    .hero .sub {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+    .hero .meta2 {
+      margin-top: 10px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      color: var(--muted);
+      font-size: 13px;
+    }
+    .pill {
+      border: 1px solid var(--border);
+      background: #fff;
+      padding: 6px 10px;
+      border-radius: 999px;
+      display: inline-flex;
+      gap: 8px;
+      align-items: center;
+    }
+    .pill b { color: var(--text); }
+    .weather {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: #fff;
+    }
+    .weather-dot {
+      width: 8px; height: 8px;
+      border-radius: 999px;
+      background: var(--accent);
+      display: inline-block;
+    }
+    .top3 {
+      margin-top: 14px;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 16px 18px;
+    }
+    .top3-kicker {
+      display: inline-block;
+      background: var(--accent-soft);
+      color: var(--accent);
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-weight: 700;
+      font-size: 12px;
+    }
+    .top3-title {
+      margin: 10px 0 8px;
+      font-size: 18px;
+    }
+    .top3-list {
+      margin: 0;
+      padding-left: 18px;
+      color: var(--text);
+    }
+    .top3-list li {
+      margin: 6px 0;
+    }
+
+    .topic {
+      margin-top: 16px;
+    }
+    .topic-head {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      padding: 0 2px;
+      margin-bottom: 10px;
+    }
+    .topic-title {
+      margin: 0;
+      font-size: 16px;
+    }
+    .topic-count {
+      color: var(--muted);
+      font-size: 13px;
+    }
+    .cards {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+    @media (min-width: 860px) {
+      .cards { grid-template-columns: 1fr 1fr; }
+    }
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 14px 14px 12px;
+    }
+    .card-title {
+      margin: 0;
+      font-size: 15px;
+    }
+    .meta {
+      margin-top: 6px;
+      color: var(--muted);
+      font-size: 12.5px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      align-items: center;
+    }
+    .dot { opacity: 0.6; }
+    .meta-link {
+      color: var(--muted);
+      text-decoration: none;
+      border-bottom: 1px dotted rgba(107,114,128,0.6);
+    }
+    .meta-link:hover { color: var(--text); }
+    .card-body {
+      margin-top: 10px;
+      font-size: 13.5px;
+      color: var(--text);
+    }
+    .card-actions {
+      margin-top: 12px;
+      display: flex;
+      justify-content: flex-end;
+    }
+    .btn {
+      display: inline-block;
+      background: #fff;
+      border: 1px solid rgba(208,2,27,0.35);
+      color: var(--accent);
+      padding: 8px 10px;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 13px;
+    }
+    .btn:hover {
+      background: var(--accent-soft);
+      border-color: rgba(208,2,27,0.55);
+    }
+
+    .badge {
+      display: inline-block;
+      margin-right: 8px;
+      padding: 3px 8px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 900;
+      vertical-align: middle;
+      letter-spacing: 0.3px;
+    }
+    .badge.breaking {
+      background: var(--accent);
+      color: #fff;
+    }
+    .summary-list {
+      margin: 8px 0 0 18px;
+      padding: 0;
+    }
+
+    .summary-list li {
+      margin-bottom: 6px;
+    }
+
+    .empty {
+      margin-top: 16px;
+      background: var(--panel);
+      border: 1px dashed var(--border);
+      border-radius: var(--radius);
+      padding: 16px;
+      color: var(--muted);
+      text-align: center;
+    }
+    .footer {
+      margin-top: 18px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 12px;
+    }
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">
+        <div class="logo">LRT</div>
+        <div>
+          Naujienų santrauka <small>RSS + AI</small>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <section class="hero">
+      <h1>LRT vidurdienio naujienų atnaujinimas — 2026-02-25</h1>
+      <p class="sub">Naujos naujienos nuo 07:00 (ryto santraukos).</p>
+      <div class="meta2">
+        <span class="pill"><b>Šaltinis:</b> LRT RSS</span>
+        <span class="pill"><b>Data:</b> 2026-02-25</span>
+        <span class="pill"><b>Sugeneruota:</b> 2026-02-25 17:37</span>
+        
+          <div class="weather">
+            <span class="weather-dot"></span>
+            <span>Vilnius: dabar 0.6°C, vėjas 9.0 m/s, šiandien -2.5…1.3°C.</span>
+          </div>
+        
+      </div>
+    </section>
+
+    
+          <section class="top3">
+            <div class="top3-head">
+              <div class="top3-kicker">Svarbiausia</div>
+              <h2 class="top3-title">Top 3 šiandien</h2>
+            </div>
+            <ol class="top3-list"><li>Vyriausybė pritarė atnaujintai Nacionalinio saugumo strategijai — Nustato saugumo prioritetus ir reagavimo kryptis.</li><li>Parengtas planas, nors prognozės švelnėja: „Tokio didelio potvynio jau nelaukiame“ — Užtikrina pasirengimą ir gyventojų saugumą potvynio metu.</li><li>Premjerė žada domėtis situacija dėl Radzevičiaus vaikams perrašytos LŽS skolos — Galimi finansiniai ir reputaciniai teisės pažeidimai, reikalingas aiškumas.</li></ol>
+          </section>
+        
+
+    
+          <section class="topic">
+            <div class="topic-head">
+              <h2 class="topic-title">Lietuvoje</h2>
+              <div class="topic-count">4 vnt.</div>
+            </div>
+            <div class="cards">
+              
+              <article class="card">
+                <div class="card-top">
+                  <h3 class="card-title">Premjerė žada domėtis situacija dėl Radzevičiaus vaikams perrašytos LŽS skolos</h3>
+                  <div class="meta">
+                    <span class="meta-item">15:37</span>
+                    <span class="dot">•</span>
+                    <span class="meta-item">Lietuvoje</span>
+                    <span class="dot">•</span>
+                    <a class="meta-link" href="https://www.lrt.lt/naujienos/lietuvoje/2/2850308/premjere-zada-dometis-situacija-del-radzeviciaus-vaikams-perrasytos-lzs-skolos" target="_blank" rel="noopener noreferrer">www.lrt.lt</a>
+                  </div>
+                </div>
+                <div class="card-body"><ul class='summary-list'><li>Premjerė Inga Ruginienė pareiškė, kad pasidomės žurnalistų etikos inspektoriaus Dainiaus Radzevičiaus vaikams perrašyta LŽS skola, šiuo metu neturinti detalių ir neviešinanti vertinimų dėl jo tolimesnio vadovavimo tarnybai.</li><li>LŽS vadovas Audrys Antanaitis teigia, kad Radzevičius perrašė beveik 59,7 tūkst. eurų vidinę skolą savo vaikams; sąjunga tokių pinigų greitu metu negalinti išmokėti ir sieks taikaus susitarimo ar skolų mažinimo; pernai birželį LŽS bendras skolos dydis buvo nurodytas kaip virš 239 tūkst. eurų.</li><li>D. Radzevičius neigia, kad LŽS jam būtų skolinga; jo paskyrimą į žurnalistų etikos inspektorius inicijavo Visuomenės informavimo etikos asociacija ir patvirtino Seimas, Kultūros komitetas teigia apie skolos perrašymą nebuvo informuotas.</li><li>Straipsnyje taip pat aptariama Vyriausybės pozicija dėl socialinių tinklų ribojimo vaikams, tyrimai dėl partijos „Nemuno aušra“ finansavimo ir premjerės žadamos griežtesnės priemonės kovai su finansiniais sukčiais.</li><li>Neaišku iš straipsnio.</li><li>Kodėl tai svarbu Lietuvai? Todėl kad bylos aplink žiniasklaidos organizacijų finansus ir etikos vadovų elgesį veikia visuomenės pasitikėjimą žiniasklaida, viešųjų institucijų skaidrumą ir demokratinių procesų skaidrumą.</li></ul></div>
+                <div class="card-actions">
+                  <a class="btn" href="https://www.lrt.lt/naujienos/lietuvoje/2/2850308/premjere-zada-dometis-situacija-del-radzeviciaus-vaikams-perrasytos-lzs-skolos" target="_blank" rel="noopener noreferrer">Skaityti →</a>
+                </div>
+              </article>
+            
+              <article class="card">
+                <div class="card-top">
+                  <h3 class="card-title">Širinskienė: statuto pataisa dėl „filibusterių“ draudimo gali būti antikonstitucinė</h3>
+                  <div class="meta">
+                    <span class="meta-item">15:29</span>
+                    <span class="dot">•</span>
+                    <span class="meta-item">Lietuvoje</span>
+                    <span class="dot">•</span>
+                    <a class="meta-link" href="https://www.lrt.lt/naujienos/lietuvoje/2/2850297/sirinskiene-statuto-pataisa-del-filibusteriu-draudimo-gali-buti-antikonstitucine" target="_blank" rel="noopener noreferrer">www.lrt.lt</a>
+                  </div>
+                </div>
+                <div class="card-body"><ul class='summary-list'><li>Agnė Širinskienė teigia, kad valdančiųjų parengta Seimo statuto pataisa, draudžianti „piktnaudžiauti įstatymų leidybos iniciatyvos teise“, gali būti antikonstitucinė, nes Konstitucija, jos nuomone, numato įstatymo iniciatyvos teisę be apribojimų.</li><li>Pataisa siekiama užkirsti kelią filibusteriams (pvz., opozicijos registruotiems šimtams pataisų prie LRT įstatymo), tačiau, pasak Širinskienės, ji galėtų riboti ir kitus kartotinius siūlymus, įskaitant biudžeto pakeitimus.</li><li>Siūloma mechanika leistų Seimo/komiteto pirmininkui arba grupei parlamentarų kreiptis į etikos institucijas, o gavus išvadą apie piktnaudžiavimą — taikyti procedūrines priemones (atskirti balsavimai, nesuteikti žodžio, sujungti pasiūlymus, supaprastinta svarstymo tvarka).</li><li>Pataisos autoriai teigia, kad tikslas — neleisti vilkinti teisėkūros, o Širinskienė irgi perspėja apie galimą demokratinių procedūrų suvaržymą; straipsnyje nurodoma, kas registravo projektą ir primenama pernai naudota filibusterio taktika, kuri prailgino posėdžius.</li><li>Kodėl tai svarbu Lietuvai: pataisa gali pakeisti parlamentines procedūras ir riboti opozicijos galimybes, todėl jos atitikimą Konstitucijai reikia kruopščiai įvertinti.</li><li>Neaišku iš straipsnio.</li></ul></div>
+                <div class="card-actions">
+                  <a class="btn" href="https://www.lrt.lt/naujienos/lietuvoje/2/2850297/sirinskiene-statuto-pataisa-del-filibusteriu-draudimo-gali-buti-antikonstitucine" target="_blank" rel="noopener noreferrer">Skaityti →</a>
+                </div>
+              </article>
+            
+              <article class="card">
+                <div class="card-top">
+                  <h3 class="card-title">Parengtas planas, nors prognozės švelnėja: „Tokio didelio potvynio jau nelaukiame“</h3>
+                  <div class="meta">
+                    <span class="meta-item">14:57</span>
+                    <span class="dot">•</span>
+                    <span class="meta-item">Lietuvoje</span>
+                    <span class="dot">•</span>
+                    <a class="meta-link" href="https://www.lrt.lt/naujienos/lietuvoje/2/2850251/parengtas-planas-nors-prognozes-svelneja-tokio-didelio-potvynio-jau-nelaukiame" target="_blank" rel="noopener noreferrer">www.lrt.lt</a>
+                  </div>
+                </div>
+                <div class="card-body"><ul class='summary-list'><li>Vyriausybė patvirtino priemonių ir veiksmų planą potvynio atveju, numatantį sąveiką tarp valstybės institucijų, tarnybų ir savivaldos; kariuomenė pasiruošusi spręsti ledo sangrūdų sprogdinimo klausimus atskirai.</li><li>Prognozuojamas potvynis galėtų kilti kovo viduryje, tačiau šiuo metu vandens lygiai mažesni nei 2010 m. ir situacija atrodo geresnė; ledai gali pajudėti vasario 27–28 d., bet viskas priklauso nuo oro sąlygų.</li><li>Didžiausias pavojus — Kaunas ir Kėdainiai; pavojingos upės — Neris (8–10 sangrūdų vietų), Nemunas (pamaris), taip pat Šventoji ir Nevėžis; stebimos Vakarų ir Šiaurės Lietuvos vietovės, Nemuno delta ir Radikiai.</li><li>PAGD, NKVC ir kitos tarnybos yra pasirengusios (kateriai, speciali įranga, smėlio maišai dislokuoti strateginėse vietose), tačiau neaišku iš straipsnio, kada tiksliai ir kokio masto potvynis įvyks.</li><li>Kodėl tai svarbu Lietuvai? Potvyniai gali kelti tiesioginį pavojų gyventojų saugumui, infrastruktūrai ir regioninei ekonomikai, todėl būtina pasirengti ir užtikrinti savalaikį koordinuotą reagavimą.</li></ul></div>
+                <div class="card-actions">
+                  <a class="btn" href="https://www.lrt.lt/naujienos/lietuvoje/2/2850251/parengtas-planas-nors-prognozes-svelneja-tokio-didelio-potvynio-jau-nelaukiame" target="_blank" rel="noopener noreferrer">Skaityti →</a>
+                </div>
+              </article>
+            
+              <article class="card">
+                <div class="card-top">
+                  <h3 class="card-title">Vyriausybė pritarė atnaujintai Nacionalinio saugumo strategijai</h3>
+                  <div class="meta">
+                    <span class="meta-item">14:38</span>
+                    <span class="dot">•</span>
+                    <span class="meta-item">Lietuvoje</span>
+                    <span class="dot">•</span>
+                    <a class="meta-link" href="https://www.lrt.lt/naujienos/lietuvoje/2/2850254/vyriausybe-pritare-atnaujintai-nacionalinio-saugumo-strategijai" target="_blank" rel="noopener noreferrer">www.lrt.lt</a>
+                  </div>
+                </div>
+                <div class="card-body"><ul class='summary-list'><li>Vyriausybė pritarė atnaujintai Nacionalinio saugumo strategijai, kurią galutinai turi patvirtinti Seimas; Vyriausybės atstovais parlamente paskirti krašto apsaugos ministras Robertas Kaunas arba viceministrai Karolis Aleksa / Tomas Godliauskas.</li><li>Strategijos tikslas – sustiprinti atgrasymą ir valstybės pasirengimą gintis karinės agresijos atveju, dokumente išskiriamos trys pagrindinės sritys: valstybės ginkluota gynyba, parama ginkluotai gynybai ir valstybės atsparumo stiprinimas bei tarptautinė saugumo sistema, atitinkanti Lietuvos interesus.</li><li>Identifikuotos grėsmės: egzistencinė grėsmė dėl Rusijos galimybių iki 2030 m. vykdyti didelio masto konvencinį karą su NATO, priešiškų žvalgybų veikla, Baltarusijos įsitraukimas į Rusijos karinę veiklą bei Kinijos stiprėjimas ir jos vaidmuo įgalinant Rusiją; taip pat akcentuojami technologiniai iššūkiai, kritinės infrastruktūros pažeidžiamumas ir demografiniai/kultūriniai iššūkiai.</li><li>Numatyti veiksmai ir prioritetai: stiprinti kariuomenę, kolektyvinio saugumo ir ES gynybinius pajėgumus, išankstinio perspėjimo sistemas, didinti Šaulių sąjungos integraciją, užtikrinti ekonominį saugumą ir atsparumą, plėsti susisiekimo ir eksporto geografiją bei vykdyti gimstamumo ir šeimos politiką; dokumentas sulaukė opozicijos kritikos dėl biurokratiškumo ir aiškios vizijos trūkumo.</li><li>Kodėl tai svarbu Lietuvai? Todėl, kad strategija nustato šalies saugumo prioritetus ir priemones, kaip Lietuva turi pasirengti ir reaguoti į augančias regionines ir globalias grėsmes.</li></ul></div>
+                <div class="card-actions">
+                  <a class="btn" href="https://www.lrt.lt/naujienos/lietuvoje/2/2850254/vyriausybe-pritare-atnaujintai-nacionalinio-saugumo-strategijai" target="_blank" rel="noopener noreferrer">Skaityti →</a>
+                </div>
+              </article>
+            
+            </div>
+          </section>
+        
+          <section class="topic">
+            <div class="topic-head">
+              <h2 class="topic-title">Pasaulyje</h2>
+              <div class="topic-count">4 vnt.</div>
+            </div>
+            <div class="cards">
+              
+              <article class="card">
+                <div class="card-top">
+                  <h3 class="card-title"><span class="badge breaking">NAUJA</span>Klimato kaita kelia abejonių dėl žiemos olimpinių žaidynių ateities</h3>
+                  <div class="meta">
+                    <span class="meta-item">16:41</span>
+                    <span class="dot">•</span>
+                    <span class="meta-item">Pasaulyje</span>
+                    <span class="dot">•</span>
+                    <a class="meta-link" href="https://www.lrt.lt/naujienos/pasaulyje/6/2848117/klimato-kaita-kelia-abejoniu-del-ziemos-olimpiniu-zaidyniu-ateities" target="_blank" rel="noopener noreferrer">www.lrt.lt</a>
+                  </div>
+                </div>
+                <div class="card-body"><ul class='summary-list'><li>Klimato kaita kelia grėsmę žiemos olimpinėms žaidynėms: aukštesnės temperatūros ir mažėjantis patikimų sniego vietovių skaičius (iš dabartinių 93 vietovių iki apie 30 iki 2080 m.) verčia svarstyti renginių formato, laikotarpio ir vietovių pakeitimus.</li><li>IOC reaguoja prioritetu teikdamas esamai infrastruktūrai, regioniniam modeliui ir tvaresnėms praktikoms, tačiau tyrėjai kritikuoja valdymo spragas, ypač nepriklausomos emisijų apskaitos ir patikros stoka.</li><li>Praktinis pavyzdys – Milano–Kortinos 2026 žaidynės: deklaruotos tvarumo priemonės kartu su naujomis statybomis, didelėmis išlaidomis ir apie 930 000 t. CO₂ emisijų rodo, kad pažadai ne visada virsta realybe; tuo tarpu siūlomas Šveicarijos 2038 modelis siekia rengti žaidynes be naujų pastovių objektų, plačiai naudojant viešąjį transportą ir griežtesnę atskaitomybę.</li><li>Tyrėjai siūlo ambicingus emisijų mažinimo tikslus (pvz., −48 % iki 2030 m. ir −84 % iki 2050 m.), tačiau pagrindinis iššūkis lieka tarptautinių kelionių poveikis ir rėmėjų, įskaitant iškastinio kuro sektorių, vaidmuo renginiuose.</li><li>Kodėl tai svarbu Lietuvai: dėl klimato kaitos poveikio regioninei žiemos turizmo infrastruktūrai, kelionių emisijų ir būtinybės dalyvauti bei remti tarptautinius tvarumo standartus rengiant ar lankantis tokiems dideliems renginiams.</li></ul></div>
+                <div class="card-actions">
+                  <a class="btn" href="https://www.lrt.lt/naujienos/pasaulyje/6/2848117/klimato-kaita-kelia-abejoniu-del-ziemos-olimpiniu-zaidyniu-ateities" target="_blank" rel="noopener noreferrer">Skaityti →</a>
+                </div>
+              </article>
+            
+              <article class="card">
+                <div class="card-top">
+                  <h3 class="card-title"><span class="badge breaking">NAUJA</span>Europos Komisija: apsirūpinimo nafta pavojaus Vengrijai ir Slovakijai nėra</h3>
+                  <div class="meta">
+                    <span class="meta-item">16:40</span>
+                    <span class="dot">•</span>
+                    <span class="meta-item">Pasaulyje</span>
+                    <span class="dot">•</span>
+                    <a class="meta-link" href="https://www.lrt.lt/naujienos/pasaulyje/6/2850350/europos-komisija-apsirupinimo-nafta-pavojaus-vengrijai-ir-slovakijai-nera" target="_blank" rel="noopener noreferrer">www.lrt.lt</a>
+                  </div>
+                </div>
+                <div class="card-body"><ul class='summary-list'><li>Europos Komisija praneša, kad, nepaisant rusiškos naftos tiekimo per „Družba“ nutrūkimo, Vengrijai ir Slovakijai šiuo metu nekyla naftos trūkumo pavojus ir alternatyvūs tiekimo šaltiniai užtikrina tiekimą.</li><li>EK nurodo, kad šalys pradėjo naudoti skubiąsias naftos atsargas (ribotos iki trijų mėnesių importo), o pagrindinis alternatyvus tiekimo kelias yra Adrijos naftotiekis per Kroatiją, kuris veža nerusišką žaliavinę naftą ir turi pajėgumų padidinti tiekimą.</li><li>Politinis kontekstas: Vengrijos premjeras Viktoras Orbanas vetavo ES finansinę paramą ir sankcijų paketą Ukrainai, reikalaujant atnaujinti tiekimą per „Družba“; Orbanas kaltina Ukrainą delsimu, tuo tarpu Kijevas teigia, kad naftotiekį pažeidė Rusijos smūgiai ir remonto darbai dar nebaigti.</li><li>Neaišku iš straipsnio.</li><li>Kodėl tai svarbu Lietuvai? Todėl, kad tai atspindi regiono energetinio saugumo ir tiekimo grandinių pažeidžiamumą bei politinę riziką ES, galinčią paveikti rinkų stabilumą, sankcijų vienybę ir – netiesiogiai – Lietuvos energijos tiekimą.</li></ul></div>
+                <div class="card-actions">
+                  <a class="btn" href="https://www.lrt.lt/naujienos/pasaulyje/6/2850350/europos-komisija-apsirupinimo-nafta-pavojaus-vengrijai-ir-slovakijai-nera" target="_blank" rel="noopener noreferrer">Skaityti →</a>
+                </div>
+              </article>
+            
+              <article class="card">
+                <div class="card-top">
+                  <h3 class="card-title">Orbanas perrinkimo Vengrijoje siekia skleisdamas antiukrainietišką žinią</h3>
+                  <div class="meta">
+                    <span class="meta-item">15:41</span>
+                    <span class="dot">•</span>
+                    <span class="meta-item">Pasaulyje</span>
+                    <span class="dot">•</span>
+                    <a class="meta-link" href="https://www.lrt.lt/naujienos/pasaulyje/6/2850306/orbanas-perrinkimo-vengrijoje-siekia-skleisdamas-antiukrainietiska-zinia" target="_blank" rel="noopener noreferrer">www.lrt.lt</a>
+                  </div>
+                </div>
+                <div class="card-body"><ul class='summary-list'><li>V. Orbanas aktyviai veda valstybės lėšomis remiamą kampaniją, kurioje dezinformacija ir DI sugeneruoti vaizdai vaizduoja Ukrainą ir ES kaip grėsmę Vengrijai ir ragina nutraukti paramą Kyjivui.</li><li>Siekdamas pakeisti rinkimų temą, jis kaltina Ukrainą ir ES dėl ekonominių rizikų, užblokavo naują ES sankcijų paketą Rusijai ir grasina vetuoti tolesnę proukrainietišką politiką.</li><li>Orbanas laikomas artimiausiu Kremliaus sąjungininku ES, siejančiu savo poziciją su energetine priklausomybe nuo Rusijos, o tai sustiprino įtarimus dėl autoritarinių praktikų ir žiniasklaidos kontrolės.</li><li>Jo varžovas Péteris Magyaras iškelia socialines ir ekonomines problemas bei vakarietiškos orientacijos atkūrimą; dalis vengrų protestuoja prieš Orbaną, tačiau rinkimų rezultatas išlieka neaiškus.</li><li>Kodėl tai svarbu Lietuvai? Orbanas silpnina ES vienybę ir gali blokuoti sankcijas bei paramą Ukrainai, kas tiesiogiai kelia riziką Baltijos regiono saugumui, ES energetiniam ir politiniam solidarumui bei Lietuvos interesams.</li></ul></div>
+                <div class="card-actions">
+                  <a class="btn" href="https://www.lrt.lt/naujienos/pasaulyje/6/2850306/orbanas-perrinkimo-vengrijoje-siekia-skleisdamas-antiukrainietiska-zinia" target="_blank" rel="noopener noreferrer">Skaityti →</a>
+                </div>
+              </article>
+            
+              <article class="card">
+                <div class="card-top">
+                  <h3 class="card-title">„Naujas hibridinio karo eskalavimas“: Minskas gabena migrantus į Europą slaptais tuneliais</h3>
+                  <div class="meta">
+                    <span class="meta-item">15:19</span>
+                    <span class="dot">•</span>
+                    <span class="meta-item">Pasaulyje</span>
+                    <span class="dot">•</span>
+                    <a class="meta-link" href="https://www.lrt.lt/naujienos/pasaulyje/6/2850244/naujas-hibridinio-karo-eskalavimas-minskas-gabena-migrantus-i-europa-slaptais-tuneliais" target="_blank" rel="noopener noreferrer">www.lrt.lt</a>
+                  </div>
+                </div>
+                <div class="card-body"><ul class='summary-list'><li>Baltarusija, tariamai vykdydama hibridinį karą, siunčia neteisėtus migrantus į Europą per slaptais požeminiais tuneliais, kuriuos aptiko Lenkijos pasienio tarnybos.</li><li>Lenkija praneša apie keturis 2025 m. aptiktus tunelius (vienas prie Narevkos), kuriuose rasta šimtai migrantų (daugiausia iš Afganistano ir Pakistano); tuneliai apie 1,5 m aukščio, įėjimai paslėpti miške, šonai sutvirtinti betoninėmis atramomis.</li><li>Karo ir tunelių ekspertai įvardija galimus pagalbininkus — „Hamas“, „Hezbollah“, kai kurias kurdų frakcijas, galbūt „Islamo valstybę“ arba Irano remiamas grupes — tačiau neaišku, kurios konkrečios organizacijos yra atsakingos. Neaišku iš straipsnio.</li><li>Lenkija laiko tai nauja Kremliui ir Minsko būdais eskaluoti hibridinį spaudimą pasienyje; pasienio saugumas naudoja šilumines kameras ir aptikimo sistemas, kad greitai reaguotų ir sulaikytų migrantus.</li><li>Kodėl tai svarbu Lietuvai? Lietuva turi bendrą sieną su Baltarusija ir susiduria su panašiomis hibridinio karo rizikomis bei migrantų srautų grėsmėmis, todėl tokie metodai grėsmę kelia ir mūsų pasienio saugumui bei regioninei stabilumui.</li></ul></div>
+                <div class="card-actions">
+                  <a class="btn" href="https://www.lrt.lt/naujienos/pasaulyje/6/2850244/naujas-hibridinio-karo-eskalavimas-minskas-gabena-migrantus-i-europa-slaptais-tuneliais" target="_blank" rel="noopener noreferrer">Skaityti →</a>
+                </div>
+              </article>
+            
+            </div>
+          </section>
+        
+          <section class="topic">
+            <div class="topic-head">
+              <h2 class="topic-title">Verslas</h2>
+              <div class="topic-count">4 vnt.</div>
+            </div>
+            <div class="cards">
+              
+              <article class="card">
+                <div class="card-top">
+                  <h3 class="card-title"><span class="badge breaking">NAUJA</span>1,8 mln. vartotojų Lietuvoje turinti „Smart-ID“ pristato naują programėlės versiją</h3>
+                  <div class="meta">
+                    <span class="meta-item">16:15</span>
+                    <span class="dot">•</span>
+                    <span class="meta-item">Verslas</span>
+                    <span class="dot">•</span>
+                    <a class="meta-link" href="https://www.lrt.lt/naujienos/verslas/4/2850312/1-8-mln-vartotoju-lietuvoje-turinti-smart-id-pristato-nauja-programeles-versija" target="_blank" rel="noopener noreferrer">www.lrt.lt</a>
+                  </div>
+                </div>
+                <div class="card-body"><ul class='summary-list'><li>„Smart‑ID+“ versija diegiama automatiškai be papildomo atsisiuntimo; ji atsisako asmens kodo ir kontrolinių kodų lyginimo, autentifikavimas susiejamas su naudotojo įrenginiu ir patvirtinamas telefone.</li><li>Prisijungimai ir transakcijų patvirtinimai bus atliekami tik iniciavus veiksmą programėlėje, naudojant dinaminį QR kodą arba app‑to‑app perėjimą, patvirtinant PIN1; tai turėtų sumažinti phishing atakų riziką.</li><li>Prekybos tinklas „Rimi“ jau naudoja technologiją savitarnos kasose amžiaus patvirtinimui (Lietuvoje ir Estijoje nuo 2025 m. gruodžio, Latvijoje – kovo mėn.), kas trečias klientas pasinaudoja šia galimybe, ji užtrunka vidutiniškai 17 sekundžių ir sumažina kasos apdorojimo laiką ~15 %.</li><li>Lietuvoje „Smart‑ID“ naudoja daugiau nei 1,8 mln. žmonių, „Mobile‑ID“ apie 470 tūkst.; su šiomis priemonėmis atliekama apie 45 mln. operacijų per mėnesį, o paslaugų kaina organizacijoms nesikeičia.</li><li>Kodėl tai svarbu Lietuvai: sutrumpina aptarnavimo laiką, stiprina skaitmeninių paslaugų saugumą nuo sukčiavimo ir palengvina verslo bei viešųjų paslaugų skaitmeninę integraciją.</li></ul></div>
+                <div class="card-actions">
+                  <a class="btn" href="https://www.lrt.lt/naujienos/verslas/4/2850312/1-8-mln-vartotoju-lietuvoje-turinti-smart-id-pristato-nauja-programeles-versija" target="_blank" rel="noopener noreferrer">Skaityti →</a>
+                </div>
+              </article>
+            
+              <article class="card">
+                <div class="card-top">
+                  <h3 class="card-title">LAT: Cicėnas ir jo vadovaujamos įmonės lieka nuteistos dėl „Ekologistikos“ gaisro</h3>
+                  <div class="meta">
+                    <span class="meta-item">15:24</span>
+                    <span class="dot">•</span>
+                    <span class="meta-item">Verslas</span>
+                    <span class="dot">•</span>
+                    <a class="meta-link" href="https://www.lrt.lt/naujienos/verslas/4/2850294/lat-cicenas-ir-jo-vadovaujamos-imones-lieka-nuteistos-del-ekologistikos-gaisro" target="_blank" rel="noopener noreferrer">www.lrt.lt</a>
+                  </div>
+                </div>
+                <div class="card-body"><ul class='summary-list'><li>Lietuvos Aukščiausiasis Teismas galutinai pripažino Juozą Cicėną ir jo valdomas įmones „Vivatrans“ bei „Ekologistika“ kaltomis dėl 2019 m. spalio didelio padangų gaisro Alytaus pramonės rajone, kuriame buvo laikyta virš 4 tūkst. t padangų, nors leista 1,9 tūkst. t, o dalis jų – net neleistinose „Vivatrans“ patalpose.</li><li>Teismas konstatavo, kad pažeisti priešgaisrinės saugos reikalavimai ir perteklinis padangų kiekis prisidėjo prie to, jog gaisras truko apie dešimt dienų ir sukėlė reikšmingą žalą orui bei kitas pasekmes.</li><li>J. Cicėnas nuteistas už aplinkos apsaugos priežiūros pažeidimus, neatsargų turto sunaikinimą ir dokumento klastojimą — jam skirta 3 metų 3 mėn. laisvės atėmimo bausmė, vykdymas atidėtas 2 metams; „Ekologistika“ ir „Vivatrans“ nubaustos po 500 tūkst. eurų baudas.</li><li>Teismas priteisė turtinius atlyginimus: Aplinkos apsaugos departamentui 1,38 mln. EUR, valstybei 4,26 mln. EUR, bendrovei Gamybos park – 1,59 mln. EUR, nukentėjusiajai V. Š. 500 EUR; ekspertai tiksliai gaisro priežasties nenustatė, nurodydami tris galimas versijas, o atskira byla prieš ugniagesius buvo nutraukta kaip nenustačius nusikaltimo.</li><li>Kodėl tai svarbu Lietuvai? Tai svarbu Lietuvai, nes bylos sprendimas aiškiai parodo atsakomybę už aplinkosaugos ir priešgaisrinių reikalavimų pažeidimus, numato dideles žalos atlyginimo prievoles ir gali skatinti griežtesnę pramonės priežiūrą bei prevenciją.</li></ul></div>
+                <div class="card-actions">
+                  <a class="btn" href="https://www.lrt.lt/naujienos/verslas/4/2850294/lat-cicenas-ir-jo-vadovaujamos-imones-lieka-nuteistos-del-ekologistikos-gaisro" target="_blank" rel="noopener noreferrer">Skaityti →</a>
+                </div>
+              </article>
+            
+              <article class="card">
+                <div class="card-top">
+                  <h3 class="card-title">LB rado būdą, kaip kovoti su finansiniais sukčiais: galėtų susigrąžinti pavogtas lėšas</h3>
+                  <div class="meta">
+                    <span class="meta-item">14:51</span>
+                    <span class="dot">•</span>
+                    <span class="meta-item">Verslas</span>
+                    <span class="dot">•</span>
+                    <a class="meta-link" href="https://www.lrt.lt/naujienos/verslas/4/2850213/lb-rado-buda-kaip-kovoti-su-finansiniais-sukciais-galetu-susigrazinti-pavogtas-lesas" target="_blank" rel="noopener noreferrer">www.lrt.lt</a>
+                  </div>
+                </div>
+                <div class="card-body"><ul class='summary-list'><li>Lietuvos bankas siūlo daugiau nei 20 Mokėjimo ir vartojimo kredito įstatymo pakeitimų, siekiant stiprinti vartotojų apsaugą, aiškiau apibrėžti autorizavimo kriterijus ir padidinti mokėjimo paslaugų teikėjų bei kreditorių atsakomybę kovojant su sukčiavimu.</li><li>Siūloma aiškiai nustatyti, kad mokėjimo operacija nelaikoma autorizuota, jei ją inicijavo ne klientas arba be jo sutikimo, suteikti galimybę nurašyti lėšas iš sukčiaus sąskaitos ir sugrąžinti jas nukentėjusiam klientui bei priversti įstaigas atlyginti nuostolius, jei jos nesustabdo įtartinų operacijų.</li><li>Planuojama įtvirtinti realaus laiko mokėjimų stebėjimą, duomenų keitimą tarp paslaugų teikėjų ir vartotojams suteikti galimybę nustatyti skirtingus atsiskaitymų limitus; dalis pakeitimų gali įsigalioti 2026 m. lapkritį, kiti — 2027 m. lapkritį.</li><li>Sukčiavimas didėja: 2025 m. užfiksuoti 15 447 atvejai, apie 20 mln. eurų sėkmingai išviliota (bandyta ~58,8 mln.); dažniausi metodai — telefoninis sukčiavimas, suklastotos bankų/institucijų svetainės ir investicinės apgavystės.</li><li>Kodėl tai svarbu Lietuvai? Tai mažina gyventojų ir verslo finansinius nuostolius, didina pasitikėjimą finansų sistema ir stiprina šalies gebėjimą kovoti su augančiu sukčiavimu.</li></ul></div>
+                <div class="card-actions">
+                  <a class="btn" href="https://www.lrt.lt/naujienos/verslas/4/2850213/lb-rado-buda-kaip-kovoti-su-finansiniais-sukciais-galetu-susigrazinti-pavogtas-lesas" target="_blank" rel="noopener noreferrer">Skaityti →</a>
+                </div>
+              </article>
+            
+              <article class="card">
+                <div class="card-top">
+                  <h3 class="card-title">Grindų dangos detektyvas: naujakuriai kaltina broką, pardavėjai sako – kalti ne mes</h3>
+                  <div class="meta">
+                    <span class="meta-item">14:00</span>
+                    <span class="dot">•</span>
+                    <span class="meta-item">Verslas</span>
+                    <span class="dot">•</span>
+                    <a class="meta-link" href="https://www.lrt.lt/naujienos/verslas/4/2827254/grindu-dangos-detektyvas-naujakuriai-kaltina-broka-pardavejai-sako-kalti-ne-mes" target="_blank" rel="noopener noreferrer">www.lrt.lt</a>
+                  </div>
+                </div>
+                <div class="card-body"><ul class='summary-list'><li>Šeima iš Šiaulių anksčiau užsisakė ir parsivežė „Krono Herringbone 8“ grindų dangą, ją paklojus pradėjo atšokinėti eglutės rašto lentelių kraštai; rekomenduoti meistrai problemos neišsprendė ir pirkėjams teko skubiai pirkti kitą dangą.</li><li>Pardavėjas (UAB „Ginlora“) grąžino pinigus tik už 36 nepraplėštas pakuotes, teigė, kad gedimas kilo dėl netinkamo montavimo/pagrindo, ir suteikė nuolaidą naujam pirkiniui.</li><li>Valstybinė vartotojų teisių apsaugos tarnyba (VVTAT) išnagrinėjo skundą ir pripažino, kad pardavėjas neteisus, įpareigojant grąžinti už 115 pakuočių 1 750,88 EUR; sprendimas taps privalomas, jei per 30 dienų nebus kreiptasi į teismą.</li><li>Socialiniuose tinkluose pasirodė panašių pirkėjų atsiliepimų apie galimą broką ir skirtingas pakuočių partijas, bet galutinė gedimo priežastis (gaminių kokybė, montavimas ar sandėliavimas) neaiški.</li><li>Neaišku iš straipsnio.</li><li>Kodėl tai svarbu Lietuvai: tai pabrėžia vartotojų teisių gynimo institucijų vaidmenį ir primena apie būtinybę aiškios atsakomybės, dokumentacijos ir įrodymų renkantis bei montuojant statybines ir apdailos medžiagas.</li></ul></div>
+                <div class="card-actions">
+                  <a class="btn" href="https://www.lrt.lt/naujienos/verslas/4/2827254/grindu-dangos-detektyvas-naujakuriai-kaltina-broka-pardavejai-sako-kalti-ne-mes" target="_blank" rel="noopener noreferrer">Skaityti →</a>
+                </div>
+              </article>
+            
+            </div>
+          </section>
+        
+          <section class="topic">
+            <div class="topic-head">
+              <h2 class="topic-title">Sportas</h2>
+              <div class="topic-count">4 vnt.</div>
+            </div>
+            <div class="cards">
+              
+              <article class="card">
+                <div class="card-top">
+                  <h3 class="card-title"><span class="badge breaking">NAUJA</span>Velička nepadės Lietuvos krepšinio rinktinei kovose su Islandija</h3>
+                  <div class="meta">
+                    <span class="meta-item">16:23</span>
+                    <span class="dot">•</span>
+                    <span class="meta-item">Sportas</span>
+                    <span class="dot">•</span>
+                    <a class="meta-link" href="https://www.lrt.lt/naujienos/sportas/10/2850333/velicka-nepades-lietuvos-krepsinio-rinktinei-kovose-su-islandija" target="_blank" rel="noopener noreferrer">www.lrt.lt</a>
+                  </div>
+                </div>
+                <div class="card-body"><ul class='summary-list'><li>Arnas Velička (26 m., Klaipėdos „Neptūnas“) nepadės Lietuvos vyrų rinktinei dėl traumos ir nevyks į rungtynes su Islandija.</li><li>Vyriausiasis treneris Rimas Kurtinaitis anksčiau jį buvo įtraukęs į sąrašą, bet užsiminė apie traumą; Neaišku iš straipsnio.</li><li>Lietuva žais dvejas atrankos rungtynes su Islandija (vasario 27 d. Islandijoje ir kovo 2 d. Klaipėdoje), abi transliuos LRT TELEVIZIJA ir LRT.lt.</li><li>Lietuva atrankoje turi pergalę prieš Didžiąją Britaniją (89:88) ir pralaimėjimą Italijai (81:82); visos grupės komandos šiuo metu yra po 1 pergalę ir 1 pralaimėjimą.</li><li>Kodėl tai svarbu Lietuvai? Arnas Veličkos nebuvimas gali silpninti komandos organizaciją ir turėti įtakos jos galimybėms pasiekti gerą rezultatą atrankoje į pasaulio čempionatą.</li></ul></div>
+                <div class="card-actions">
+                  <a class="btn" href="https://www.lrt.lt/naujienos/sportas/10/2850333/velicka-nepades-lietuvos-krepsinio-rinktinei-kovose-su-islandija" target="_blank" rel="noopener noreferrer">Skaityti →</a>
+                </div>
+              </article>
+            
+              <article class="card">
+                <div class="card-top">
+                  <h3 class="card-title">Europos reitinge Lietuvos rankinio rinktinės – Baltijos šalių lyderės</h3>
+                  <div class="meta">
+                    <span class="meta-item">15:32</span>
+                    <span class="dot">•</span>
+                    <span class="meta-item">Sportas</span>
+                    <span class="dot">•</span>
+                    <a class="meta-link" href="https://www.lrt.lt/naujienos/sportas/10/2850298/europos-reitinge-lietuvos-rankinio-rinktines-baltijos-saliu-lyderes" target="_blank" rel="noopener noreferrer">www.lrt.lt</a>
+                  </div>
+                </div>
+                <div class="card-body"><ul class='summary-list'><li>EHF reitinge Lietuvos vyrų rinktinė per metus nukrito į 28 vietą (18,75 tšk.), tiek pat taškų turi ir Ukraina, tačiau ukrainiečiai aukščiau dėl patekimo į šių metų Europos čempionatą; Estija 29 vietoje (18,5 tšk.), Latvija 35 vietoje (13,75 tšk.).</li><li>Moterų rinktinė pakilo 4 pozicijomis į 29 vietą (16,25 tšk.), per metus įgijo 4,5 tšk. po sėkmingos atrankos pradžios; Latvija 34 vieta (10,25 tšk.), Estija 37 vieta (4 tšk.).</li><li>Artimiausi rungtynių terminai: moterų dvikovos su Ukraina kovo 5 ir 8 d., vyrų kovos su Serbija kovo 19 ir 22 d.; ukrainiečių moterų reitingas 21 vieta (21,5 tšk.), serbų vyrų — 16 vieta (27,5 tšk.).</li><li>Jaunimo reitinge Lietuvos merginų rinktinė 23 vietoje (23 tšk.), vaikinų — 31 vietoje (14,25 tšk.), o bendrame EHF kontekste vyrų lyderiai — Danija ir moterų lyderės — Norvegija (po 118 tšk.).</li><li>Kodėl tai svarbu Lietuvai? Reitingas veikia atrankų sėklavimą ir tarptautinį matomumą, tad geresnė pozicija padeda užtikrinti palankesnes varžybas, didina finansavimo ir renginių galimybes bei motyvuoja tobulinti nacionalines programas.</li></ul></div>
+                <div class="card-actions">
+                  <a class="btn" href="https://www.lrt.lt/naujienos/sportas/10/2850298/europos-reitinge-lietuvos-rankinio-rinktines-baltijos-saliu-lyderes" target="_blank" rel="noopener noreferrer">Skaityti →</a>
+                </div>
+              </article>
+            
+              <article class="card">
+                <div class="card-top">
+                  <h3 class="card-title">Kaune ant sniego surengtas tradicinis futbolo turnyras „Visi esame lygūs“</h3>
+                  <div class="meta">
+                    <span class="meta-item">14:41</span>
+                    <span class="dot">•</span>
+                    <span class="meta-item">Sportas</span>
+                    <span class="dot">•</span>
+                    <a class="meta-link" href="https://www.lrt.lt/naujienos/sportas/10/2850256/kaune-ant-sniego-surengtas-tradicinis-futbolo-turnyras-visi-esame-lygus" target="_blank" rel="noopener noreferrer">www.lrt.lt</a>
+                  </div>
+                </div>
+                <div class="card-body"><ul class='summary-list'><li>Vasario 24 d. Kaune, Kauno technologijų mokymo centro Socialinių paslaugų skyriaus futbolo aikštėje, įvyko tradicinis šeštasis integracinis futbolo turnyras „Visi esame lygūs“, kuriame dalyvavo jaunimas turintis specialių poreikių bei bendruomenių ir įmonių komandos.</li><li>Turnyras vyko šeši prieš šešis, be teisėjų ir su vienu kėliniu, todėl žaidėjai patys priiminėjo sprendimus ir rodė pagarbą vieni kitiems.</li><li>Pirmą vietą dėl geresnio įvarčių santykio užėmė Socialinių paslaugų skyriaus pirmoji komanda, antri – Ringaudų „Rinktinė“, treti – „Automatikos biuras“; prizininkai apdovanoti taurėmis ir medaliais.</li><li>Renginio organizatoriai pabrėžė, kad turnyras stiprina socialinę įtrauktį, ugdo pagarbą ir sujungia mokyklas, šeimas bei bendruomenes.</li><li>Kodėl tai svarbu Lietuvai? Todėl, kad tokie renginiai skatina visuomeninę sanglaudą, padeda įtraukti žmones su specialiais poreikiais į bendruomeninį gyvenimą ir ugdo pagarbos bei lygybės kultūrą.</li></ul></div>
+                <div class="card-actions">
+                  <a class="btn" href="https://www.lrt.lt/naujienos/sportas/10/2850256/kaune-ant-sniego-surengtas-tradicinis-futbolo-turnyras-visi-esame-lygus" target="_blank" rel="noopener noreferrer">Skaityti →</a>
+                </div>
+              </article>
+            
+              <article class="card">
+                <div class="card-top">
+                  <h3 class="card-title">Pirmajame Baltijos jaunimo akmenslydžio čempionate abi Lietuvos komandos pateko į 5-uką</h3>
+                  <div class="meta">
+                    <span class="meta-item">13:42</span>
+                    <span class="dot">•</span>
+                    <span class="meta-item">Sportas</span>
+                    <span class="dot">•</span>
+                    <a class="meta-link" href="https://www.lrt.lt/naujienos/sportas/10/2850214/pirmajame-baltijos-jaunimo-akmenslydzio-cempionate-abi-lietuvos-komandos-pateko-i-5-uka" target="_blank" rel="noopener noreferrer">www.lrt.lt</a>
+                  </div>
+                </div>
+                <div class="card-body"><ul class='summary-list'><li>Pirmasis Baltijos jaunimo kerlingo čempionatas įvyko Latvijoje; jame dalyvavo aštuonios komandos iš Lietuvos, Latvijos, Estijos ir Suomijos, Lietuvos merginų komanda užėmė 4‑ą vietą, vaikinų — 5‑ą.</li><li>Lietuvos merginų rinktinę sudarė Miglė Kiudytė, Nika Šilova, Urtė Venslavičiūtė ir Meda Kiudytė; B grupėje jos buvo 2‑os, laimėjo prieš Latvijos mišrią komandą 16:2 ir Weddro (Estija) 9:5, pralaimėjo „Svetie Bambali“ 5:8, pusfinalyje 5:9 nusileido „SKOB‑Regža“, o dėl bronzos 3:8 pralaimėjo Weddro.</li><li>Lietuvos vaikinų komandą sudarė Matas Junevičius, Rokas Sadauskas, Domas Ramažauskas ir Žygimantas Minardo; A grupėje jie buvo 3‑i, turėjo pergales ir pralaimėjimus grupėje, o dėl 5‑os vietos laimėjo 9:2 ir 8:6 (paskutinio akmens „pavogtas“ taškas) — trenerė pabrėžė sėkmingą debiutą po ilgos pertraukos.</li><li>Turnyras atgaivino panašaus lygio jaunimo varžybas po maždaug 15 metų ir suteikė reikalingos žaidybinės patirties; finale „SKOB‑Regža“ 7:5 įveikė Suomijos merginų rinktinę, trenerė pažymėjo, kad latvių merginos buvo kiek brandesnės, o kitos komandos yra panašaus lygio.</li><li>Neaišku iš straipsnio.</li><li>Kodėl tai svarbu Lietuvai? Renginys suteikė jaunimui tarptautinės patirties, parodė Lietuvos komandų augimo potencialą ir padėjo atkurti regionines jaunimo varžybas, būtinas tolimesniam sporto vystymuisi.</li></ul></div>
+                <div class="card-actions">
+                  <a class="btn" href="https://www.lrt.lt/naujienos/sportas/10/2850214/pirmajame-baltijos-jaunimo-akmenslydzio-cempionate-abi-lietuvos-komandos-pateko-i-5-uka" target="_blank" rel="noopener noreferrer">Skaityti →</a>
+                </div>
+              </article>
+            
+            </div>
+          </section>
+        
+
+    <div class="footer">
+      Pastaba: santraukos generuojamos automatiškai; detales tikrink pilnuose straipsniuose.
+    </div>
+  </div>
+</body>
+</html>
