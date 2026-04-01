@@ -6,9 +6,9 @@ from config import LOCAL_TZ
 def get_digest_type() -> str | None:
     """Return 'morning' at 07:xx, 'midday' at 12:xx Vilnius time, else None."""
     now = datetime.now(LOCAL_TZ)
-    if now.hour == 7:
+    if now.hour in [7, 8]:
         return "morning"
-    if now.hour == 12:
+    if now.hour in [12, 13]:
         return "midday"
     if now.hour == 18:
         return "evening"
