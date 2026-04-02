@@ -8,7 +8,7 @@ def get_digest_type() -> str | None:
     now = datetime.now(LOCAL_TZ)
     if now.hour in [7, 8]:
         return "morning"
-    if now.hour in [12, 13]:
+    if now.hour in [12]:
         return "midday"
     if now.hour == 18:
         return "evening"
